@@ -1,2 +1,4 @@
-# fleetlabapp
-This is a web application built with Streamlit that provides comprehensive transportation budget information and other relevant metrics for school districts across different states in the US. It uses various datasets to display district and superintendent information, budget details, geographical visualizations, and other key data points.
+![Example Image](images/example.png)
+# Fleet Lab District Dashboard
+
+This is a web application built with Streamlit to visualize data related to the fleet lab district. It uses various datasets to display district and superintendent information, various metrics and averages, as well as geographical visualization.
