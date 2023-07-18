@@ -3,9 +3,6 @@ import pandas as pd
 import numpy as np
 import altair as alt
 from geopy.geocoders import Nominatim
-from fpdf import FPDF
-import base64
-from geopy.geocoders import Nominatim
 
 geolocator = Nominatim(user_agent="district_locator")
 st.set_page_config(page_title='Fleet Lab District Dashboard', layout='wide')
@@ -186,37 +183,37 @@ with col2:
         else:
             st.warning(f"Please select a District.")
 
-# PDF generator 
-def create_download_link(val, filename):
-    b64 = base64.b64encode(val)
-    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="{filename}.pdf">Download file</a>'
-def export_as_pdf(district_info, avg_df):
-    # new pdf file
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size = 15)
-    pdf.cell(200, 10, txt = "District Information", ln = True, align = 'C')
-    for key, value in district_info.items():
-        pdf.cell(200, 10, txt = f"{key}: {value}", ln=True)
-    pdf.cell(200, 10, txt = "Averages", ln = True, align = 'C')
-    for index, row in avg_df.iterrows():
-        pdf.cell(200, 10, txt = f"{row['Type']}: {row['Average']}", ln=True)
-    return pdf.output(dest="S").encode("latin-1")
+# # PDF generator 
+# def create_download_link(val, filename):
+#     b64 = base64.b64encode(val)
+#     return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="{filename}.pdf">Download file</a>'
+# def export_as_pdf(district_info, avg_df):
+#     # new pdf file
+#     pdf = FPDF()
+#     pdf.add_page()
+#     pdf.set_font("Arial", size = 15)
+#     pdf.cell(200, 10, txt = "District Information", ln = True, align = 'C')
+#     for key, value in district_info.items():
+#         pdf.cell(200, 10, txt = f"{key}: {value}", ln=True)
+#     pdf.cell(200, 10, txt = "Averages", ln = True, align = 'C')
+#     for index, row in avg_df.iterrows():
+#         pdf.cell(200, 10, txt = f"{row['Type']}: {row['Average']}", ln=True)
+#     return pdf.output(dest="S").encode("latin-1")
 
-# download button 
-if st.button("Export as PDF"):
-    district_info = {  # Data to be added
-        "District": filtered_df_district['district_name'].iloc[0],
-        "County": filtered_df_district['county'].iloc[0],
-        "NCES District ID": filtered_df_district['nces_district_id'].astype(int).iloc[0],
-        "State": filtered_df_district['state'].iloc[0],
-        "Zip Code": filtered_df_district['zip_code'].iloc[0],
-        "Zip Plus Four": filtered_df_district['zip_plus_four'].astype(int).iloc[0]
-    }
+# # download button 
+# if st.button("Export as PDF"):
+#     district_info = {  # Data to be added
+#         "District": filtered_df_district['district_name'].iloc[0],
+#         "County": filtered_df_district['county'].iloc[0],
+#         "NCES District ID": filtered_df_district['nces_district_id'].astype(int).iloc[0],
+#         "State": filtered_df_district['state'].iloc[0],
+#         "Zip Code": filtered_df_district['zip_code'].iloc[0],
+#         "Zip Plus Four": filtered_df_district['zip_plus_four'].astype(int).iloc[0]
+#     }
 
-    pdf = export_as_pdf(district_info, avg_df)
-    html = create_download_link(pdf, "district_report")
-    st.markdown(html, unsafe_allow_html=True)
+#     pdf = export_as_pdf(district_info, avg_df)
+#     html = create_download_link(pdf, "district_report")
+#     st.markdown(html, unsafe_allow_html=True)
 
 
 
