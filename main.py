@@ -116,6 +116,9 @@ if not filtered_df_district.empty:
                 same_type_df = df[(df['district_type'] == district_type) & (df['district_setting_type'] == district_setting_type) & (df['state'] == district_state) & (df['district_setting'] == district_setting)]
                 same_type_avg = same_type_df[column].mean()
                 selected_district_avg = filtered_df_district[column].mean()
+                if pd.isnull(selected_district_avg) or pd.isnull(same_type_avg):
+                    st.warning(f'Data for "{column_names.get(column)}" is not available.')
+                    continue
                 avg_df = pd.DataFrame({
                     'Type': [filtered_df_district['district_name'].iloc[0], 
                             f"Average of {filtered_df_district['district_setting_type'].iloc[0]} {filtered_df_district['district_setting'].iloc[0]} Districts in {filtered_df_district['state'].iloc[0]} "],
@@ -170,7 +173,7 @@ if not filtered_df_district.empty:
 
 # Second side of page
 with col2:
-    # Show map
+    with st.container():
         zip_code = filtered_df_district['zip_code'].iloc[0]
         location = geolocator.geocode({'postalcode': zip_code, 'country': 'United States'}, timeout=10)
 
